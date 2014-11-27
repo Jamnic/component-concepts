@@ -22,15 +22,13 @@ public class PaintDemo {
 	}
 
 	private static void createAndShowGUI() {
-		System.out.println("Created GUI on EDT? " + SwingUtilities.isEventDispatchThread());
 		JFrame f = new JFrame("Swing Paint Demo");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setSize(250, 250);
+		f.setSize(800, 600);
 		DrawPanel panel = new DrawPanel();
 		f.add(panel);
         f.pack();
 		f.setVisible(true);
-		
 
 		panel.requestFocusInWindow();
 	}

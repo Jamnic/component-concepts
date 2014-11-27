@@ -2,6 +2,7 @@ package map.concept;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -9,14 +10,15 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import text.TextField;
 import text.DrawPanelKeyListener;
+import text.TextField;
 
-class DrawPanel extends JPanel {
+public class DrawPanel extends JPanel {
 
-	RedSquare redSquare = new RedSquare();
-	TextField textField = new TextField(40, 10, 20);
-	Button button = new Button(60, 60, 30, 30, "Insert A");
+	TextField textField = new TextField(2, 503, new Font("Verdana", Font.PLAIN, 10), 15);
+	Button button = new Button(280, 320, 22, 22, "Insert A");
+	MessagePanel messagePanel = new MessagePanel(this, 2, 402, 150, 100);
+	MapPanel mapPanel = new MapPanel(2, 2, 600, 600);
 
 	public DrawPanel() {
 
@@ -26,72 +28,51 @@ class DrawPanel extends JPanel {
 
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				moveSquare(e.getX(), e.getY());
-				
 				if (button.isClicked(e)) {
-					System.out.println("Wlaz³");
 					button.push();
 					repaint(button.getX(), button.getY(), button.getWidth(), button.getHeight());
-					textField.putLetter('a');
+					sendMessage(textField.getText());
+					textField.reset();
 					repaint(textField.getX(), textField.getY(), textField.getWidth(), textField.getHeight());
 				}
 			}
-			
+
 			public void mouseReleased(MouseEvent e) {
-				moveSquare(e.getX(), e.getY());
-				
 				if (button.isClicked(e)) {
 					button.unpush();
 					repaint(button.getX(), button.getY(), button.getWidth(), button.getHeight());
 				}
 			}
+
 		});
 
-		addMouseMotionListener(new MouseAdapter() {
-			public void mouseDragged(MouseEvent e) {
-				moveSquare(e.getX(), e.getY());
-			}
-		});
-
-	}
-
-	private void moveSquare(int x, int y) {
-
-		final int CURR_X = redSquare.getX();
-		final int CURR_Y = redSquare.getY();
-		final int CURR_W = redSquare.getWidth();
-		final int CURR_H = redSquare.getHeight();
-		final int OFFSET = 1;
-
-		if ((CURR_X != x) || (CURR_Y != y)) {
-
-			repaint(CURR_X, CURR_Y, CURR_W + OFFSET, CURR_H + OFFSET);
-
-			redSquare.setX(x);
-			redSquare.setY(y);
-			
-			repaint(redSquare);
-		}
 	}
 
 	public Dimension getPreferredSize() {
-		return new Dimension(250, 200);
+		return new Dimension(800, 600);
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+
 		button.paint(g);
-
 		textField.paint(g);
-
-		redSquare.paint(g);
+		mapPanel.paint(g);
+		messagePanel.paint(g);
 	}
-	
+
 	public void repaint(Component component) {
 		int x = component.getX();
 		int y = component.getY();
-		
-		repaint(x, y, component.getWidth() + x, component.getHeight() + y);
+
+		int widthPlusX = component.getWidth() + x;
+		int heightPlusY = component.getHeight() + y;
+
+		repaint(x, y, widthPlusX, heightPlusY);
+	}
+
+	public void sendMessage(String text) {
+		messagePanel.sendMessage(text);
+		repaint(messagePanel);
 	}
 }

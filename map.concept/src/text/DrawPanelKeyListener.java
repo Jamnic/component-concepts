@@ -3,11 +3,11 @@ package text;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.JPanel;
+import map.concept.DrawPanel;
 
 public class DrawPanelKeyListener implements KeyListener {
 
-	public DrawPanelKeyListener(TextField textField, JPanel panel) {
+	public DrawPanelKeyListener(TextField textField, DrawPanel panel) {
 		this.textField = textField;
 		this.panel = panel;
 	}
@@ -24,6 +24,10 @@ public class DrawPanelKeyListener implements KeyListener {
 			panel.repaint(textField.getX(), textField.getY(), textField.getWidth(), textField.getHeight());
 		else if ((keyCode == 32 || keyCode > 186) && textField.putLetter(e.getKeyChar())) {
 			panel.repaint(textField.getX(), textField.getY(), textField.getWidth(), textField.getHeight());
+		} else if (keyCode == KeyEvent.VK_ENTER) {
+			panel.sendMessage(textField.getText());
+			textField.reset();
+			panel.repaint(textField.getX(), textField.getY(), textField.getWidth(), textField.getHeight());
 		}
 	}
 
@@ -31,6 +35,6 @@ public class DrawPanelKeyListener implements KeyListener {
 	}
 	
 	private TextField textField;
-	private JPanel panel;
+	private DrawPanel panel;
 
 }

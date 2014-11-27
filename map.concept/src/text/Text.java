@@ -19,6 +19,10 @@ public abstract class Text {
 	public Text(int x, int y, String text) {
 		this(x, y, FontLoader.getDiplomaFont(), "");
 	}
+	
+	public Text(int x, int y, Font font) {
+		this(x, y, font, "");
+	}
 
 	public void paint(Graphics g) {
 		g.setFont(font);
@@ -31,6 +35,10 @@ public abstract class Text {
 
 	public int getY() {
 		return y;
+	}
+	
+	public String getText() {
+		return text.toString();
 	}
 
 	/* Private */
