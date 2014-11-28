@@ -2,6 +2,7 @@ package text;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 
 import map.concept.Component;
@@ -23,7 +24,12 @@ public abstract class Text extends Component {
 	public void paint(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.setFont(font);
-		g.drawString(text.toString(), x + 2, y + 12);
+		FontMetrics fontMetrics = g.getFontMetrics(font);
+		int stringWidth = fontMetrics.stringWidth(text.toString());
+		if (stringWidth > width)
+			g.drawString(text.toString(), width - stringWidth, y + 12);
+		else
+			g.drawString(text.toString(), x + 2, y + 12);
 	}
 
 	public String getText() {

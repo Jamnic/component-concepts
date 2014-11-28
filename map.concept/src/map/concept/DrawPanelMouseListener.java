@@ -20,7 +20,7 @@ public class DrawPanelMouseListener extends MouseAdapter {
 			isButtonClicked = true;
 			messagePanel.pushButton();
 			messagePanel.repaintButton();
-			messagePanel.sendMessage();
+			messagePanel.createMessage();
 		}
 	}
 

@@ -29,7 +29,7 @@ public class DrawPanelKeyListener implements KeyListener {
 		else if ((keyCode == 32 || keyCode > 186) && messagePanel.putLetterInTextField(e.getKeyChar())) {
 			messagePanel.repaintTextField();
 		} else if (keyCode == KeyEvent.VK_ENTER) {
-			messagePanel.sendMessage();
+			messagePanel.createMessage();
 		}
 	}
 
