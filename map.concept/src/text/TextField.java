@@ -6,16 +6,13 @@ import java.awt.Graphics;
 
 public class TextField extends Text {
 
-	private int width;
-	private final int height = 22;
-	private static final Color backgroundColor = new Color(100, 100, 100, 100);
+	private static final Color backgroundColor = new Color(150, 100, 150, 200);
 
 	private int max;
 
-	public TextField(int x, int y, Font font, int columns) {
-		super(x, y, font);
+	public TextField(int x, int y, int width, int height, Font font, int columns) {
+		super(x, y, width, height, font, "");
 		this.max = columns;
-		this.width = columns * 10;
 	}
 
 	public boolean deleteLetter() {
@@ -36,22 +33,16 @@ public class TextField extends Text {
 	}
 
 	public void paint(Graphics g) {
+		
+		System.out.println(x + " " + y + " " + width + " " + height);
 
 		g.setColor(backgroundColor);
 		g.fillRect(x, y, width, height);
-		g.setColor(Color.GRAY);
+		g.setColor(Color.BLACK);
 		g.drawRect(x, y, width, height);
 
 		super.paint(g);
 
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
 	}
 
 	public void reset() {

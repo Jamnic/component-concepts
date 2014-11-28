@@ -13,7 +13,7 @@ public class Button extends Text {
 	private boolean push;
 
 	public Button(int x, int y, int width, int height, String text) {
-		super(x, y, text);
+		super(x, y, width, height, text);
 		this.width = width;
 		this.height = height;
 	}

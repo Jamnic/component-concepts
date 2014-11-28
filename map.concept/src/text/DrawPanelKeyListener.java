@@ -4,37 +4,41 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import map.concept.DrawPanel;
+import map.concept.MessagePanel;
 
 public class DrawPanelKeyListener implements KeyListener {
 
-	public DrawPanelKeyListener(TextField textField, DrawPanel panel) {
-		this.textField = textField;
-		this.panel = panel;
-	}
-	
-	public void keyTyped(KeyEvent e) {
+	/* Components */
+	private MessagePanel messagePanel;
+	private DrawPanel mainPanel;
+
+	/* Public */
+	public DrawPanelKeyListener(DrawPanel mainPanel, MessagePanel messagePanel) {
+		this.messagePanel = messagePanel;
+		this.mainPanel = mainPanel;
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 
-		if (keyCode == KeyEvent.VK_BACK_SPACE && textField.deleteLetter())
-			panel.repaint(textField.getX(), textField.getY(), textField.getWidth(), textField.getHeight());
-		else if (keyCode >= 65 && keyCode <= 122 && textField.putLetter(e.getKeyChar()))
-			panel.repaint(textField.getX(), textField.getY(), textField.getWidth(), textField.getHeight());
-		else if ((keyCode == 32 || keyCode > 186) && textField.putLetter(e.getKeyChar())) {
-			panel.repaint(textField.getX(), textField.getY(), textField.getWidth(), textField.getHeight());
+		if (keyCode == KeyEvent.VK_BACK_SPACE && messagePanel.deleteLetterInTextField())
+			messagePanel.repaintTextField();
+		else if (keyCode >= 65 && keyCode <= 122 && messagePanel.putLetterInTextField(e.getKeyChar()))
+			messagePanel.repaintTextField();
+		else if ((keyCode == 32 || keyCode > 186) && messagePanel.putLetterInTextField(e.getKeyChar())) {
+			messagePanel.repaintTextField();
 		} else if (keyCode == KeyEvent.VK_ENTER) {
-			panel.sendMessage(textField.getText());
-			textField.reset();
-			panel.repaint(textField.getX(), textField.getY(), textField.getWidth(), textField.getHeight());
+			messagePanel.sendMessage();
 		}
 	}
 
+	@Override
 	public void keyReleased(KeyEvent e) {
 	}
-	
-	private TextField textField;
-	private DrawPanel panel;
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
 
 }

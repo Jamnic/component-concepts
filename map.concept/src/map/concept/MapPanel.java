@@ -53,11 +53,11 @@ public class MapPanel extends Component {
 	}
 
 	/* Private */
-	private Field[] fields = new Field[400];
+	private Field[] fields = new Field[768];
 
 	private void initializeFields() {
 
-		for (int i = 0; i < 400; ++i) {
+		for (int i = 0; i < 768; ++i) {
 			fields[i] = new Field();
 			if (i % 10 == 0) {
 				fields[i].setType(FieldType.MOUNTAIN);

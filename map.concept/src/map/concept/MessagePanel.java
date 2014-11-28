@@ -3,54 +3,78 @@ package map.concept;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import text.TextField;
+
 public class MessagePanel extends Component {
 
-	public MessagePanel(DrawPanel drawPanel, int x, int y, int width, int height) {
+	private static final Color backgroundColor = new Color(150, 100, 150, 200);
+	private static final int NUMBER_OF_MESSAGES = 10;
+	private static final int SHOW_MESSAGE_DELAY = 5;
+	private static final int TEXT_GAP = 15;
+	
+	/* Components */
+	private Button button;
+	private TextField textField;
+	private final DrawPanel mainPanel;
+
+	/* Public */
+	public MessagePanel(DrawPanel mainPanel, int x, int y, int width, int height) {
 		super(x, y, width, height);
-		this.drawPanel = drawPanel;
-		
+
+		this.mainPanel = mainPanel;
+
+		createComponents();
 		timer();
 	}
 
-	public void sendMessage(String text) {
-		
-		tick += TICK_DELAY;
+	public void sendMessage() {
+
+		messageCountdownTimer += SHOW_MESSAGE_DELAY;
 
 		if (messages.size() == NUMBER_OF_MESSAGES)
 			messages.poll();
 
-		messages.add(text);
+		messages.add(textField.getText());
 
+		this.repaint(mainPanel);
+
+		textField.reset();
+		textField.repaint(mainPanel);
 	}
 
 	public void paint(Graphics g) {
+		
+		int heightOfMessages = TEXT_GAP * messages.size();
+		int dynamicY = y + height - heightOfMessages;
 
 		g.setColor(backgroundColor);
-		g.fillRect(x, y, width, height);
-		g.setColor(Color.GRAY);
-		g.drawRect(x, y, width, height);
+		g.fillRect(x, dynamicY, width, heightOfMessages);
+		g.setColor(Color.BLACK);
+		g.drawRect(x, dynamicY, width, heightOfMessages);
 
 		int counter = 1;
-		g.setColor(Color.GRAY);
 		g.setFont(new Font("Verdana", Font.BOLD, 10));
 
 		for (String message : messages) {
-			System.out.println((x + 2) + " " + (y + height - (20 * messages.size() + 20 * counter)));
-			g.drawString(message, x + 2, y + height - 2 - (20 * messages.size()) + 20 * counter++);
+			g.drawString(message, x + 2, dynamicY + 15 * counter++ - 4);
 		}
 
+		textField.paint(g);
+
 	}
-	
+
 	/* Private */
-	private static final Color backgroundColor = new Color(100, 100, 100, 100);
-	private static final int NUMBER_OF_MESSAGES = 10;
 	private final Queue<String> messages = new LinkedList<String>();
-	private final DrawPanel drawPanel;
-	private static final int TICK_DELAY = 5;
-	private int tick = 0;
+	private int messageCountdownTimer = 0;
+
+	private void createComponents() {
+		Font font = new Font("Verdana", Font.PLAIN, 10);
+		textField = new TextField(0, y + height, width, TEXT_GAP, font, TEXT_GAP);
+	}
 
 	private void timer() {
 		new Thread(new Runnable() {
@@ -77,14 +101,42 @@ public class MessagePanel extends Component {
 	}
 
 	protected void tick() {
-		if (tick > 0) {
-			if ((tick % TICK_DELAY) == 1 || tick == 1) {
+		if (messageCountdownTimer > 0) {
+			if ((messageCountdownTimer % SHOW_MESSAGE_DELAY) == 1 || messageCountdownTimer == 1) {
 				messages.poll();
-				drawPanel.repaint(this);
+				this.repaint(mainPanel);
 			}
-			tick--;
+			messageCountdownTimer--;
 		}
 
+	}
+
+	public boolean deleteLetterInTextField() {
+		return textField.deleteLetter();
+	}
+
+	public boolean putLetterInTextField(char keyChar) {
+		return textField.putLetter(keyChar);
+	}
+
+	public void repaintTextField() {
+		textField.repaint(mainPanel);
+	}
+
+	public boolean isButtonClicked(MouseEvent e) {
+		return button.isClicked(e);
+	}
+
+	public void pushButton() {
+		button.push();
+	}
+
+	public void repaintButton() {
+		button.repaint(mainPanel);
+	}
+
+	public void unpushButton() {
+		button.unpush();
 	}
 
 }

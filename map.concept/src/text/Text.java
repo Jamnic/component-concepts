@@ -1,50 +1,37 @@
 package text;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
-public abstract class Text {
+import map.concept.Component;
 
-	public Text(int x, int y, Font font, String text) {
-		this.x = x;
-		this.y = y;
+public abstract class Text extends Component {
+
+	public Text(int x, int y, int width, int height, Font font, String text) {
+		super(x, y, width, height);
 		this.font = font;
 		this.text = new StringBuilder(text);
 	}
 
-	public Text(int x, int y) {
-		this(x, y, FontLoader.getDiplomaFont(), "");
-	}
-
-	public Text(int x, int y, String text) {
-		this(x, y, FontLoader.getDiplomaFont(), "");
-	}
-	
-	public Text(int x, int y, Font font) {
-		this(x, y, font, "");
+	public Text(int x, int y, int width, int height, String text) {
+		super(x, y, width, height);
+		this.font = new Font("Verdana", Font.PLAIN, 10);
+		this.text = new StringBuilder(text);
 	}
 
 	public void paint(Graphics g) {
+		g.setColor(Color.BLACK);
 		g.setFont(font);
-		g.drawString(text.toString(), x + 2, y + 20);
+		g.drawString(text.toString(), x + 2, y + 12);
 	}
 
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-	
 	public String getText() {
 		return text.toString();
 	}
 
 	/* Private */
 	protected StringBuilder text;
-	protected int x;
-	protected int y;
 	private Font font;
 
 }

@@ -13,6 +13,7 @@ public abstract class Component {
 	public Component(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
+		System.out.println(width);
 		this.width = width;
 		this.height = height;
 	}
@@ -54,6 +55,10 @@ public abstract class Component {
 
 	public void setHeight(int height) {
 		this.height = height;
+	}
+	
+	public void repaint(DrawPanel drawPanel) {
+		drawPanel.repaint(x, y, width + x, height + y);
 	}
 
 }
