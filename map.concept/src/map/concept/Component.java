@@ -3,26 +3,37 @@ package map.concept;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import map.panels.draw.DrawPanel;
+
 public abstract class Component {
 
 	protected int x;
 	protected int y;
 	protected int width;
 	protected int height;
+	protected boolean isVisible;
 
 	public Component(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
-		System.out.println(width);
 		this.width = width;
 		this.height = height;
+		isVisible = true;
 	}
 
 	public void paint(Graphics g) {
-		g.setColor(Color.RED);
-		g.fillRect(x, y, width, height);
-		g.setColor(Color.BLACK);
-		g.drawRect(x, y, width, height);
+		if (isVisible) {
+			System.out.println("PAINTING");
+			
+			g.setColor(Color.RED);
+			g.fillRect(x, y, width, height);
+			g.setColor(Color.BLACK);
+			g.drawRect(x, y, width, height);
+		}
+	}
+
+	public void repaint(DrawPanel drawPanel) {
+		drawPanel.repaint(x, y, width + x, height + y);
 	}
 
 	public int getX() {
@@ -56,9 +67,13 @@ public abstract class Component {
 	public void setHeight(int height) {
 		this.height = height;
 	}
-	
-	public void repaint(DrawPanel drawPanel) {
-		drawPanel.repaint(x, y, width + x, height + y);
+
+	public void show() {
+		this.isVisible = true;
+	}
+
+	public void hide() {
+		this.isVisible = false;
 	}
 
 }

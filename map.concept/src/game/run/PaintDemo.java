@@ -1,4 +1,4 @@
-package map.concept;
+package game.run;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
@@ -6,19 +6,28 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import map.concept.Timer;
+import map.panels.draw.DrawPanel;
+import sprites.SpriteContainer;
 import text.FontLoader;
 
 public class PaintDemo {
 
 	public static void main(String[] args) throws FontFormatException, IOException {
-		
+
 		new FontLoader();
-		
+
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				createAndShowGUI();
 			}
 		});
+
+		Timer timer = Timer.getInstance();
+		new Thread(timer).start();
+
+		new SpriteContainer();
+
 	}
 
 	private static void createAndShowGUI() {
@@ -27,10 +36,10 @@ public class PaintDemo {
 		f.setSize(800, 600);
 		DrawPanel panel = new DrawPanel();
 		f.add(panel);
-        f.pack();
+		f.pack();
 		f.setVisible(true);
 
 		panel.requestFocusInWindow();
 	}
-	
+
 }

@@ -4,18 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 
-import text.Text;
-
 public class Button extends Text {
-
-	private int width;
-	private int height;
-	private boolean push;
 
 	public Button(int x, int y, int width, int height, String text) {
 		super(x, y, width, height, text);
-		this.width = width;
-		this.height = height;
 	}
 
 	public void paint(Graphics g) {
@@ -37,6 +29,7 @@ public class Button extends Text {
 	}
 
 	public boolean isClicked(MouseEvent e) {
+		System.out.println(e.getX() >= x && e.getX() <= x + width && e.getY() >= y && e.getY() <= y + height);
 		return e.getX() >= x && e.getX() <= x + width && e.getY() >= y && e.getY() <= y + height;
 	}
 
@@ -48,12 +41,7 @@ public class Button extends Text {
 		this.push = false;
 	}
 
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
+	/* Private */
+	private boolean push;
 
 }

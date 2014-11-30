@@ -1,4 +1,4 @@
-package text;
+package map.concept;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -6,7 +6,7 @@ import java.awt.Graphics;
 
 public class TextField extends Text {
 
-	private static final Color backgroundColor = new Color(150, 100, 150, 200);
+	private static final Color backgroundColor = new Color(150, 150, 150, 200);
 
 	private int max;
 

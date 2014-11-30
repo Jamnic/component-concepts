@@ -1,4 +1,4 @@
-package map.concept;
+package map.panels.map;
 
 public enum FieldType {
 
