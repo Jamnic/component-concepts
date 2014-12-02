@@ -1,6 +1,8 @@
 package map.panels.map;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
 
 import map.concept.Component;
 import map.concept.FieldGraphics;
@@ -32,14 +34,49 @@ public class MapPanel extends Component {
 			int cursorY = 0;
 			int counter = 0;
 
-			for (Field field : fields) {
+			for (int i = 0; i < fields.length; ++i) {
+				Field field = fields[i];
+
 				if (++counter == 15) {
 					cursorX += FIELD_WIDTH;
 					cursorY = 0;
 					counter = 0;
 				}
 
-				fieldGraphics.draw(g, field, cursorX, cursorY);
+				Field[] neighbours = new Field[4];
+
+				int fieldWidth = width / FIELD_WIDTH;
+				int fieldHeight = height / FIELD_HEIGHT;
+
+				int firstNeighbourIndex = i - fieldWidth;
+				if (firstNeighbourIndex >= 0 && firstNeighbourIndex < fieldWidth * fieldHeight)
+					neighbours[0] = fields[firstNeighbourIndex];
+
+				int secondNeighbourIndex = i - 1;
+				if (secondNeighbourIndex >= 0 && secondNeighbourIndex < fieldWidth * fieldHeight)
+					neighbours[1] = fields[secondNeighbourIndex];
+
+				int thirdNeighbourIndex = i + 1;
+				if (thirdNeighbourIndex >= 0 && thirdNeighbourIndex < fieldWidth * fieldHeight)
+					neighbours[2] = fields[thirdNeighbourIndex];
+
+				int fourthNeighbourIndex = i + fieldWidth;
+				if (fourthNeighbourIndex >= 0 && fourthNeighbourIndex < fieldWidth * fieldHeight)
+					neighbours[3] = fields[fourthNeighbourIndex];
+
+				if (field != null) {
+
+					System.out.print("Field " + field.getType() + " " + field.getCoords() + " ma s¹siadów: ");
+					for (Field neig : neighbours) {
+						if (neig == null)
+							System.out.print("(-, -)");
+						else
+							System.out.print("[" + neig.getType() + " " + neig.getCoords() + "]");
+					}
+					System.out.println();
+				}
+
+				fieldGraphics.draw(g, field, neighbours, cursorX, cursorY);
 
 				cursorY += FIELD_HEIGHT;
 			}
