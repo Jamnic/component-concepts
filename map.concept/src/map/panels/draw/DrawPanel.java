@@ -18,13 +18,15 @@ public class DrawPanel extends JPanel {
 	private MapPanel mapPanel;
 	private Button kingdomDetailsButton;
 	private KingdomDetailsPopup kingdomDetailsPopup;
+	private FieldDetailsPopup fieldDetailsPopup;
 
 	/* Public */
 	public DrawPanel() {
 		createComponents();
 
 		addKeyListener(new DrawPanelKeyListener(messagePanel));
-		addMouseListener(new DrawPanelMouseListener(kingdomDetailsPopup, kingdomDetailsButton));
+		addMouseListener(new DrawPanelMouseListener(this, kingdomDetailsPopup, kingdomDetailsButton, mapPanel,
+				fieldDetailsPopup));
 	}
 
 	@Override
@@ -40,6 +42,7 @@ public class DrawPanel extends JPanel {
 		messagePanel.paint(g);
 		kingdomDetailsButton.paint(g);
 		kingdomDetailsPopup.paint(g);
+		fieldDetailsPopup.paint(g);
 	}
 
 	/* Private */
@@ -50,6 +53,7 @@ public class DrawPanel extends JPanel {
 		mapPanel = new MapPanel(0, 0, 800, 480);
 		kingdomDetailsButton = new Button(0, 500, 100, 100, "");
 		kingdomDetailsPopup = new KingdomDetailsPopup(100, 100, 500, 500);
+		fieldDetailsPopup = new FieldDetailsPopup(100, 100, 300, 300);
 
 		Timer.getInstance().addTickable(messagePanel);
 	}

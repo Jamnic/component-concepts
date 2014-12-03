@@ -26,7 +26,7 @@ public class FontLoader {
 	public FontLoader() throws FontFormatException, IOException {
 
 		InputStream myStream = new BufferedInputStream(new FileInputStream("diploma.ttf"));
-		diplomaFont = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 24);
+		diplomaFont = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 12);
 
 		verdanaFont = new Font("Verdana", Font.PLAIN, 10);
 	}

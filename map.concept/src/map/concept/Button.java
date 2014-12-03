@@ -29,7 +29,6 @@ public class Button extends Text {
 	}
 
 	public boolean isClicked(MouseEvent e) {
-		System.out.println(e.getX() >= x && e.getX() <= x + width && e.getY() >= y && e.getY() <= y + height);
 		return e.getX() >= x && e.getX() <= x + width && e.getY() >= y && e.getY() <= y + height;
 	}
 

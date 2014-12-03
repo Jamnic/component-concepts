@@ -2,6 +2,7 @@ package map.concept;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 
 import map.panels.draw.DrawPanel;
 
@@ -23,13 +24,15 @@ public abstract class Component {
 
 	public void paint(Graphics g) {
 		if (isVisible) {
-			System.out.println("PAINTING");
-			
 			g.setColor(Color.RED);
 			g.fillRect(x, y, width, height);
 			g.setColor(Color.BLACK);
 			g.drawRect(x, y, width, height);
 		}
+	}
+
+	public boolean isClicked(MouseEvent e) {
+		return isVisible && e.getX() >= x && e.getX() <= x + width && e.getY() >= y && e.getY() <= y + height;
 	}
 
 	public void repaint(DrawPanel drawPanel) {

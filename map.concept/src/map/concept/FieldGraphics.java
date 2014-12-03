@@ -3,28 +3,31 @@ package map.concept;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import sprites.SpriteContainer;
 import map.panels.map.Field;
 import map.panels.map.FieldType;
+import sprites.SpriteContainer;
+import sprites.SpriteType;
 
 public class FieldGraphics {
 
-	public void draw(Graphics g, Field field, int cursorX, int cursorY) {
-		g.drawImage(determineImage(field.getType()), cursorX, cursorY, null);
+	private SpriteType spriteType = new SpriteType();
 
+	public void draw(Graphics g, Field field, Field[] neighbours) {
+		if (field != null)
+			g.drawImage(determineImage(field, neighbours), field.getCoords().getX() * 32, field.getCoords().getY() * 32, null);
 	}
 
-	private BufferedImage determineImage(FieldType type) {
+	private BufferedImage determineImage(Field field, Field[] neighbours) {
+		FieldType type = field.getType();
 		switch (type) {
 		case GRASS:
 			return SpriteContainer.getGrassSprite();
 		case MOUNTAIN:
 			return SpriteContainer.getMountainSprite();
 		case OCEAN:
-			return SpriteContainer.getOceanSprite();
+			return spriteType.resolveTerrain(field, neighbours);
 		default:
-			return SpriteContainer.getGrassSprite();
+			return null;
 		}
 	}
-
 }
