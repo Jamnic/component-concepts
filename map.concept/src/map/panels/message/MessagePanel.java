@@ -1,131 +1,92 @@
 package map.panels.message;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
 
 import map.concept.Component;
 import map.concept.TextField;
-import map.concept.Tickable;
-import map.panels.draw.DrawPanel;
-import text.FontLoader;
-import text.StringParter;
+import map.panels.map.ChatPanel;
+import text.FontUtility;
 
-public class MessagePanel extends Component implements Tickable {
+/**
+ * Draws inter-player quick chat on the screen.
+ * 
+ * It is composed with two elements - {@link TextField} in which player can type short messages, and {@link ChatPanel}
+ * where messages are displayed.
+ */
+public class MessagePanel extends Component {
 
-	private static final Color backgroundColor = new Color(150, 150, 150, 200);
-	private static final int NUMBER_OF_MESSAGES = 10;
-	private static final int SECOND = 1000;
-	private static final int SHOW_MESSAGE_DELAY = 10 * SECOND;
 	private static final int TEXT_GAP = 15;
-	private static final int VERDANA_OFFSET = 4;
-	private final int MESSAGE_X_OFFSET = x + 2;
 
-	/* Components */
-	private TextField textField;
-	private final DrawPanel mainPanel;
+	/* ========== PUBLIC ========== */
 
-	/* Public */
-	public MessagePanel(DrawPanel drawPanel, int x, int y, int width, int height) {
+	/**
+	 * Creates {@link MessagePanel} and sets it into given place on the game screen. Creates its components.
+	 * 
+	 * @param drawPanel - parent of this panel, used to redraw panel and its components.
+	 * @param x - sets the x position on the owning window in pixels.
+	 * @param y - sets the y position on the owning window in pixels.
+	 * @param width - sets the width of the panel.
+	 * @param height - sets the height of the panel.
+	 */
+	public MessagePanel(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		this.mainPanel = drawPanel;
-
+		
 		createComponents();
 	}
 
+	/**
+	 * Sends message from {@link TextField} to the {@link ChatPanel}, and calls repaints of these components.
+	 */
 	public void sendMessage() {
 
-		awaitingMessages.add(textField.getText());
-		this.repaint(mainPanel);
+		chatPanelComponent.sendMessage(textFieldComponent.getText());
+		textFieldComponent.reset();
 
-		textField.reset();
-		textField.repaint(mainPanel);
+		chatPanelComponent.repaint();
+		textFieldComponent.repaint();
 	}
 
+	/**
+	 * Paints the panel on the screen using given Graphics if <code>isVisible</code> is set to true. <br>
+	 * Creates {@link Message} objects from awaiting String texts from {@link TextField}, and prints the
+	 * {@link ChatPanel}.
+	 */
 	public void paint(Graphics g) {
-
+		
 		if (isVisible) {
-			createMessageFromAwaitingOnesAndRemoveOldOnes(g);
-
-			int heightOfTextArea = TEXT_GAP * messagePanelSize;
-			int yCoordOfTextArea = y + height - heightOfTextArea;
-
-			printBackground(g, heightOfTextArea, yCoordOfTextArea);
-			printMessages(g, yCoordOfTextArea);
-
-			textField.paint(g);
+			chatPanelComponent.paint(g);
+			textFieldComponent.paint(g);
 		}
 	}
 
-	@Override
-	public void tick() {
-		for (Message message : messages) {
-			if (message.getCreationTime() + SHOW_MESSAGE_DELAY < System.currentTimeMillis()) {
-				messages.remove(message);
-				messagePanelSize -= message.getSize();
-				this.repaint(mainPanel);
-			}
-		}
-	}
-
+	/**
+	 * If it is possible, deletes the youngest letter in {@link TextField}.
+	 */
 	public void deleteLetterInTextField() {
-		if (textField.deleteLetter())
-			textField.repaint(mainPanel);
+		if (textFieldComponent.deleteLetter())
+			textFieldComponent.repaint();
 	}
 
+	/**
+	 * If it is possible, puts given letter in {@link TextField}.
+	 */
 	public void putLetterInTextField(char keyChar) {
-		if (textField.putLetter(keyChar))
-			textField.repaint(mainPanel);
+		if (textFieldComponent.putLetter(keyChar))
+			textFieldComponent.repaint();
 	}
 
-	/* Private */
-	private final Queue<Message> messages = new LinkedList<Message>();
-	private final Queue<String> awaitingMessages = new LinkedList<String>();
-	private int messagePanelSize = 0;
+	/* ========== PRIVATE ========== */
 
+	private TextField textFieldComponent;
+	private ChatPanel chatPanelComponent;
+
+	/**
+	 * Creates components of {@link MessagePanel}.
+	 */
 	private void createComponents() {
-		textField = new TextField(0, y + height, width, TEXT_GAP, FontLoader.getVerdanaFont(), 255);
-	}
-
-	private void createMessageFromAwaitingOnesAndRemoveOldOnes(Graphics g) {
-
-		while (!awaitingMessages.isEmpty()) {
-			List<String> partedMessage = StringParter.partMessage(awaitingMessages.poll(), width, g.getFontMetrics());
-			Message newMessage = new Message("Jamnic", partedMessage);
-
-			messages.add(newMessage);
-			messagePanelSize += newMessage.getSize();
-
-			while (messagePanelSize > NUMBER_OF_MESSAGES) {
-				Message oldMessage = messages.poll();
-				messagePanelSize -= oldMessage.getSize();
-			}
-		}
-	}
-
-	private void printBackground(Graphics g, int heightOfTextArea, int yCoordOfTextArea) {
-		g.setColor(backgroundColor);
-		g.fillRect(x, yCoordOfTextArea, width, heightOfTextArea);
-		g.setColor(Color.BLACK);
-		g.drawRect(x, yCoordOfTextArea, width, heightOfTextArea);
-	}
-
-	private void printMessages(Graphics g, int yCoordOfTextArea) {
-
-		g.setFont(new Font("Verdana", Font.BOLD, 10));
-
-		int counter = 1;
-		for (Message message : messages) {
-
-			int internalCounter = 0;
-			for (String part : message.getContent())
-				g.drawString(part, MESSAGE_X_OFFSET, yCoordOfTextArea + (internalCounter++ + counter) * TEXT_GAP
-						- VERDANA_OFFSET);
-
-			counter += message.getSize();
-		}
+		// TODO moze verdana powinna miec stala TEXT_GAP
+		textFieldComponent = new TextField(x, y + height, width, TEXT_GAP, FontUtility.getInstance().getVerdanaFont(),
+				255);
+		chatPanelComponent = new ChatPanel(x, y, width, height);
 	}
 }

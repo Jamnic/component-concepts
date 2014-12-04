@@ -35,8 +35,8 @@ public abstract class Component {
 		return isVisible && e.getX() >= x && e.getX() <= x + width && e.getY() >= y && e.getY() <= y + height;
 	}
 
-	public void repaint(DrawPanel drawPanel) {
-		drawPanel.repaint(x, y, width + x, height + y);
+	public void repaint() {
+		DrawPanel.repaintComponent(x, y, width + x, height + y);
 	}
 
 	public int getX() {

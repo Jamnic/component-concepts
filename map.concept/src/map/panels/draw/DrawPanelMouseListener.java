@@ -11,34 +11,33 @@ import map.panels.map.MapPanel;
 public class DrawPanelMouseListener extends MouseAdapter {
 
 	/* Public */
-	public DrawPanelMouseListener(DrawPanel drawPanel, KingdomDetailsPopup kingdomDetailsPopup,
-			Button kingdomDetailsButton, MapPanel mapPanel, FieldDetailsPopup fieldDetailsPopup) {
+	public DrawPanelMouseListener(KingdomDetailsPopup kingdomDetailsPopup, Button kingdomDetailsButton,
+			MapPanel mapPanel, FieldDetailsPopup fieldDetailsPopup) {
 		this.kingdomDetailsPopup = kingdomDetailsPopup;
 		this.kingdomDetailsButton = kingdomDetailsButton;
 		this.mapPanel = mapPanel;
 		this.fieldDetailsPopup = fieldDetailsPopup;
-		this.drawPanel = drawPanel;
 	}
 
 	public void mousePressed(MouseEvent e) {
 
 		if (fieldDetailsPopup.isClicked(e)) {
 			fieldDetailsPopup.hide();
-			fieldDetailsPopup.repaint(drawPanel);
+			fieldDetailsPopup.repaint();
 		} else if (kingdomDetailsPopup.isClicked(e)) {
 			kingdomDetailsPopup.hide();
-			kingdomDetailsPopup.repaint(drawPanel);
+			kingdomDetailsPopup.repaint();
 		} else if (kingdomDetailsButton.isClicked(e)) {
 			isKingdomDetailsButtonClicked = true;
 			kingdomDetailsButton.push();
-			kingdomDetailsButton.repaint(drawPanel);
+			kingdomDetailsButton.repaint();
 			kingdomDetailsPopup.show();
-			kingdomDetailsPopup.repaint(drawPanel);
+			kingdomDetailsPopup.repaint();
 		} else if (mapPanel.isClicked(e)) {
 			Field field = mapPanel.getField(e.getX(), e.getY());
 			fieldDetailsPopup.displayField(field);
 			fieldDetailsPopup.show();
-			fieldDetailsPopup.repaint(drawPanel);
+			fieldDetailsPopup.repaint();
 		}
 	}
 
@@ -46,7 +45,7 @@ public class DrawPanelMouseListener extends MouseAdapter {
 		if (isKingdomDetailsButtonClicked) {
 			isKingdomDetailsButtonClicked = false;
 			kingdomDetailsButton.unpush();
-			kingdomDetailsButton.repaint(drawPanel);
+			kingdomDetailsButton.repaint();
 		}
 	}
 
@@ -55,7 +54,6 @@ public class DrawPanelMouseListener extends MouseAdapter {
 	private Button kingdomDetailsButton;
 	private MapPanel mapPanel;
 	private FieldDetailsPopup fieldDetailsPopup;
-	private DrawPanel drawPanel;
 
 	private boolean isKingdomDetailsButtonClicked;
 

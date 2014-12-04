@@ -9,13 +9,11 @@ import javax.swing.SwingUtilities;
 import map.concept.Timer;
 import map.panels.draw.DrawPanel;
 import sprites.SpriteContainer;
-import text.FontLoader;
+import text.FontUtility;
 
 public class PaintDemo {
 
 	public static void main(String[] args) throws FontFormatException, IOException {
-
-		new FontLoader();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
