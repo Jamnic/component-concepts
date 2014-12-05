@@ -24,7 +24,7 @@ public class DrawPanel extends JPanel {
 	public DrawPanel() {
 		createComponents();
 
-		addKeyListener(new DrawPanelKeyListener(messagePanel));
+		addKeyListener(new DrawPanelKeyListener(mapPanel, messagePanel));
 		addMouseListener(new DrawPanelMouseListener(kingdomDetailsPopup, kingdomDetailsButton, mapPanel,
 				fieldDetailsPopup));
 
