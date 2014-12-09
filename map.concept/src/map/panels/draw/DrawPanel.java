@@ -12,15 +12,8 @@ import map.panels.message.MessagePanel;
 
 public class DrawPanel extends JPanel {
 
-	/* Components */
-	private MessagePanel messagePanel;
-	private MapPanel mapPanel;
-	private Button kingdomDetailsButton;
-	private KingdomDetailsPopup kingdomDetailsPopup;
-	private FieldDetailsPopup fieldDetailsPopup;
-	private static DrawPanel instance;
+	/* ========== PUBLIC ========== */
 
-	/* Public */
 	public DrawPanel() {
 		createComponents();
 
@@ -51,7 +44,15 @@ public class DrawPanel extends JPanel {
 		fieldDetailsPopup.paint(g);
 	}
 
-	/* Private */
+	/* ========== PRIVATE ========== */
+	
+	private MessagePanel messagePanel;
+	private MapPanel mapPanel;
+	
+	private Button kingdomDetailsButton;
+	private KingdomDetailsPopup kingdomDetailsPopup;
+	private FieldDetailsPopup fieldDetailsPopup;
+	private static DrawPanel instance;
 	private static final long serialVersionUID = 8212047943722390372L;
 
 	private void createComponents() {

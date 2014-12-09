@@ -3,7 +3,6 @@ package map.panels.draw;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import text.FontUtility;
 import map.concept.Component;
 import map.panels.map.Field;
 

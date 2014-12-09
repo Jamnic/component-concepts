@@ -9,7 +9,6 @@ import javax.swing.SwingUtilities;
 import map.concept.Timer;
 import map.panels.draw.DrawPanel;
 import sprites.SpriteContainer;
-import text.FontUtility;
 
 public class PaintDemo {
 
@@ -25,7 +24,6 @@ public class PaintDemo {
 		new Thread(timer).start();
 
 		new SpriteContainer();
-
 	}
 
 	private static void createAndShowGUI() {
